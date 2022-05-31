@@ -13,7 +13,8 @@ char型はUnicodeにもとづいて文字を10進数で表した数値を持つ�
 従って、`'A' + 1` という計算が可能であり、結果は `B`となる。
 
 
-- お化けキノコクラスの雛形
+
+- お化けキノコクラスの雛形（課題8-1を終えている場合は、そのMatangoクラスに静的フィールドとコンストラクタを追加して用いて良い）
 ```java
 public class Matango
 {
@@ -24,15 +25,15 @@ public class Matango
 ```
 
 
-### Prog83（提出不要）
+### Prog83（このコードは提出不要）
 
 ```java
 public class Prog83 {
 
-	public static void main(String[] args) {
-		Matango m1 = new Matango();
-		Matango m2 = new Matango();
-		// （以下略）
+        public static void main(String[] args) {
+            Matango m1 = new Matango();
+            Matango m2 = new Matango();
+            // （以下略）
 	}
 
 }
