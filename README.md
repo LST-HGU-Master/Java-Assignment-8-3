@@ -14,7 +14,7 @@ char型はUnicodeにもとづいて文字を10進数で表した数値を持つ�
 
 
 
-- お化けキノコクラスの雛形（課題8-1を終えている場合は、そのMatangoクラスに静的フィールドとコンストラクタを追加して用いて良い）
+- お化けキノコクラスの雛形
 ```java
 public class Matango
 {
@@ -25,16 +25,23 @@ public class Matango
 ```
 
 
-### Prog83（このコードは提出不要）
+### Prog83.java（このコードは提出不要）
 
 ```java
 public class Prog83 {
 
-        public static void main(String[] args) {
-            Matango m1 = new Matango();
-            Matango m2 = new Matango();
-            // （以下略）
-	}
+    public static void main(String[] args) {
+        Matango m1 = new Matango();
+        System.out.println("お化けキノコ" + m1.suffix + "が誕生しました！");
+        Matango m2 = new Matango();
+        System.out.println("お化けキノコ" + m2.suffix + "が誕生しました！");            
+            
+        Matango [] mts = new Matango[27];
+        for( Matango mt: mts){
+            mt = new Matango();
+            System.out.println( "お化けキノコ" + mt.suffix + "が誕生しました！");
+        }
+    }
 
 }
 ```
