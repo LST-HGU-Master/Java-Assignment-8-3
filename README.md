@@ -20,9 +20,9 @@
 > `char` 型は文字コード（Unicode）にもとづく数値として扱うことができます（例：`'A'` は 65、`'B'` は 66）。
 > そのため、`nextSuffix++;` のようにインクリメント演算子を使うか、`(char)(nextSuffix + 1)` のように `char` 型へキャストすることで次の文字へ進めることができます（キャストなしの `nextSuffix + 1` は `int` 型になるため注意）。
 
+#### 【各クラスのコード雛形】
 
-
-- **Matango.java**
+・**Matango.java**
 ```java
 public class Matango
 {
@@ -34,7 +34,7 @@ public class Matango
 ```
 
 
-- **Prog83.java**（※提出不要）
+・**Prog83.java**（※提出不要）
 
 ```java
 public class Prog83 {
