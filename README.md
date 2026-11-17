@@ -34,7 +34,7 @@ public class Matango
 ```
 
 
-- Prog83クラス（このコードは提出不要）
+- **Prog83.java**（※提出不要）
 
 ```java
 public class Prog83 {
