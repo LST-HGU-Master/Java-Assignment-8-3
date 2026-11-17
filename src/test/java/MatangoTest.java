@@ -1,50 +1,59 @@
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.io.*;
 /**
  * @version (20220601)
+ * @version (20261117) revised for test isolation, Z-to-A boundary verification, and clean imports
  **/
 public class MatangoTest {
-    static int counter  = 0; // this is for static variable tests on the same JVM
-    @Test
-    public void testSuffix()
-    {
-        // pre-action for static variable
-        if (counter == 0 && Matango.nextSuffix != 'A') fail("静的変数の初期値が ’A’ 以外です!"+counter);
-        if (0 < counter) {
-            counter = 0; Matango.nextSuffix = 'A';
-        }
-        // action
-        Matango m1 = new Matango();
-        Matango m2 = new Matango();
-        counter ++;
-        
-        // assertion
-        assertEquals('A', m1.suffix, "最初のMatangoインスタンスのsuffixが A になっていません。");
-        assertEquals('B', m2.suffix, "２つ目のMatangoインスタンスのsuffixが B になっていません。");
+    private static char initialNextSuffix;
 
-        //Matango.next_suffix = 'A';
+    @BeforeAll
+    static void captureInitialValue() {
+        // クラスロード直後の静的フィールドの初期値を記録
+        initialNextSuffix = Matango.nextSuffix;
     }
 
+    @BeforeEach
+    void resetStaticField() {
+        // 初期値が 'A' であることを確認した上で、各テスト前に状態をリセット
+        assertEquals('A', initialNextSuffix, "静的フィールド nextSuffix の初期値が 'A' ではありません!");
+        Matango.nextSuffix = 'A';
+    }
+
+    /**
+     * インスタンス生成ごとに suffix が 'A', 'B', 'C' と順番に割り当てられるか検証
+     */
     @Test
-    public void testCirculation()
-    {
-        // pre-action for static variable
-        if (counter == 0 && Matango.nextSuffix != 'A') fail("静的変数の初期値が ’A’ 以外です!");
-        if (0 < counter) {
-            counter = 0; Matango.nextSuffix = 'A';
-        }
-        // action
+    public void testSuffix() {
+        Matango m1 = new Matango();
+        Matango m2 = new Matango();
+        Matango m3 = new Matango();
+
+        assertEquals('A', m1.suffix, "1つ目の Matango インスタンスの suffix が 'A' になっていません。");
+        assertEquals('B', m2.suffix, "2つ目の Matango インスタンスの suffix が 'B' になっていません。");
+        assertEquals('C', m3.suffix, "3つ目の Matango インスタンスの suffix が 'C' になっていません。");
+    }
+
+    /**
+     * 'Z' を割り当てた後、再び 'A' に循環して戻るか検証
+     */
+    @Test
+    public void testCirculation() {
+        Matango lastBeforeWrap = null;
         for (int i = 0; i < 26; i++) {
-            new Matango();
+            lastBeforeWrap = new Matango();
         }
-        Matango m = new Matango();
-        counter ++;
+        // 26個目が 'Z' であることを確認
+        assertEquals('Z', lastBeforeWrap.suffix, "26個目の Matango インスタンスの suffix が 'Z' になっていません。");
 
-        // assertion
-        assertEquals('A', m.suffix,"Matangoインスタンスのsuffixが Z になった後で A に戻っていません");
+        // 27個目（'Z' の次）が 'A' に戻るか確認
+        Matango m27 = new Matango();
+        assertEquals('A', m27.suffix, "Matango インスタンスの suffix が 'Z' になった後で 'A' に戻っていません。");
 
-        //Matango.next_suffix = 'A';
+        // 28個目が 'B' に進むか確認
+        Matango m28 = new Matango();
+        assertEquals('B', m28.suffix, "循環後の Matango インスタンスの suffix が 'B' に進んでいません。");
     }
 }
